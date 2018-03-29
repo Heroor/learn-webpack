@@ -19,7 +19,7 @@ module.exports = {
       ],
       use: 'babel-loader'
     }, {
-      test: /\.css?/,
+      test: /\.css$/,
       include: [
         path.resolve(__dirname, 'src')
       ],
