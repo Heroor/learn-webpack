@@ -1,0 +1,13 @@
+body {
+  color: red;
+  p {
+    color: blue;
+    transform: translateX(10px);
+    user-select: none;
+  }
+  div {
+    width: 100px;
+    height: 130px;
+    background: url('../../assets/1.jpg') 0 /cover;
+  }
+}

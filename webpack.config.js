@@ -1,5 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const webpack = require('webpack')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   entry: {
@@ -11,36 +13,35 @@ module.exports = {
   },
   module: {
     rules: [{
-      test: /\.jsx?/,
+      test: /\.js$/,
       include: [
         path.resolve(__dirname, 'src')
       ],
       use: 'babel-loader'
-    }, {
-      test: /\.jpg$/,
-      use: 'file-loader'
-    }, {
-      exclude: [/\.(js|jpg|html)$/], // 排除符合这些规则的模块
-      use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"] // loader有加载顺序
     }],
-    noParse: /\.scss/
-  },
-  resolve: {
-    alias: { // 设置路径别名
-      m1: path.resolve(__dirname, 'src/module1'), // 可以用import m1 from 'm1' 引用，或者带有'm1'的路径都会被替换掉：'m1/a.js' ===> 'src/moule1/a.js',
-      m2$: path.resolve(__dirname, 'src/module1'), // 只有import m1 from 'm1' 才能匹配到
-    },
-    extensions: ['.wasm', '.mjs', '.js', '.json', '.jsx', '.css', '.scss', '.sass'], // 加载文件时 自动添加后缀
-    modules: [
-      'node_modules',
-      path.resolve(__dirname, 'src') // 引用模块名时，也会在这个目录下找
-    ],
-    mainFiles: ['index'],// 默认加载路径下index文件
   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'assets/index.html'
     }),
+    new webpack.DefinePlugin({
+      TRUE1: true, // true
+      TRUE2: 'true', // true
+      TRUE3: JSON.stringify(true), // true
+      TRUE4: JSON.stringify('true'), // 字符串会被执行 最终得到'true'
+      two: '1+1', // 会执行 得到2
+      'process.env.NODE_ENV': JSON.stringify('DEV'),
+      o: {
+        k: JSON.stringify('value')
+      }
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: 'src/module1/*.scss', to: 'style/scss', flatten: true  // 将文件从 from 复制到 to (默认编译目录下)
+      }, {
+        from: 'src/assets/*.jpg', flatten: true // flatten 是否拷贝文件夹
+      }
+    ])
   ]
 }
