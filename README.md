@@ -1,4 +1,4 @@
-# course-1
+# lesson-1
 
 webpack 是一个打包工具，可以将项目所依赖的模块资源打包构建
 
@@ -9,7 +9,7 @@ webpack 4.x 将 webpack 分为 webpack 与 webpack-cli
 `npm i webpack -D`
 `npm i webpack-cli -D`
 
-可以在 `package` 中添加打包命令： `"build": "webpack --mode production"`  
+可以在 `package` 中添加打包命令： `"build": "webpack --mode production"`
 
 或者全局安装webpack后，就可以直接执行打包命令： `webpack --mode production`
 
