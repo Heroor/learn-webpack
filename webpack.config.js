@@ -20,20 +20,10 @@ module.exports = {
       test: /\.jpg$/,
       use: 'file-loader'
     }, {
-      test: /\.s?css$/,
-      include: [
-        path.resolve(__dirname, 'src')
-      ],
-      use: [{
-          loader: "style-loader"
-      }, {
-          loader: "css-loader"
-      }, {
-          loader: "postcss-loader"
-      }, {
-          loader: "sass-loader"
-      }]
-    }]
+      exclude: [/\.(js|jpg|html)$/], // 排除符合这些规则的模块
+      use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"] // loader有加载顺序
+    }],
+    noParse: /\.scss/
   },
   resolve: {
     alias: { // 设置路径别名
