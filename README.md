@@ -1,4 +1,4 @@
-# course-2
+# lesson-2
 创建一个webpack开发环境：
 
 - 构建html css js文件
