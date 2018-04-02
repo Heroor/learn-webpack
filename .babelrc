@@ -1,0 +1,9 @@
+{
+  "presets": [
+    "env"
+  ],
+  // 插件
+  "plugins": [
+    ["transform-class-properties"]
+  ]
+}
