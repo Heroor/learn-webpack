@@ -42,6 +42,11 @@ module.exports = {
       }, {
         from: 'src/assets/*.jpg', flatten: true // flatten 是否拷贝文件夹
       }
-    ])
+    ]),
+    new webpack.ProvidePlugin({
+      React: ['react'],
+      RComponent: ['react', 'Component'],
+      Module1: [path.resolve(__dirname, 'src/module1')],
+    })
   ]
 }

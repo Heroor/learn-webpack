@@ -30,7 +30,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
       {
         from: 'src/module1/common.scss', to: 'build/common.scss'  // 将文件从 from 复制到 to(to默认编译目录下)
       }, {
-        from: 'src/assets/*.jpg', flatten: true // flatten 是否拷贝文件夹
+        from: 'src/assets/*.jpg',
+        flatten: true // 是否只拷贝文件夹
       }
     ])
   ]
@@ -39,10 +40,62 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 
 ### extract-text-webpack-plugin
-
+拆分css为文件
+```
+const path = require('path')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: 'index.js',
+    path: path.resolve(__dirname, 'src')
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        // 需要使用插件的loader
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
+        })
+      }
+    ]
+  },
+  plugins: [
+    new ExtractTextPlugin('[name].css') // 最终分离出的css文件名， 可以用[hash]
+  ]
+}
+```
 
 ### ProvidePlugin 内置插件
+可以将默写模块作为运行时的全局变量，不用每次都引用这些模块
+```
+{
+  plugins: [
+    new webpack.ProvidePlugin({
+      name: 'react' // name 键就是暴露的全局变量
+    }),
+
+    // or
+    new ProvidePlugin({
+      // React 下的 Component,  类似于: import {Component} from React
+      name: ['react', 'Component']
+    })
+  ]
+}
+```
 
 ### IgnorePlugin 内置插件
+用来忽略某些模块，不把这些模块打包
+```
+{
+  plugins: [
+    //  参数为：
+    // 匹配引入模块路径的正则表达式
+    // 所在的目录
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/) // 忽略moment模块的部分代码
+  ]
+}
+```
 
-### webpack-dev-middleware
